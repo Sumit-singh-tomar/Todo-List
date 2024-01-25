@@ -1,5 +1,32 @@
 // Write your code below:
 
+document.addEventListener("DOMContentLoaded", function () {
+  var res = null
+  axios.get("https://crudcrud.com/api/f61bc0a4e9914660b1c3a1131b04af5d/booking")
+    .then((res) => {
+      console.log('success', res)
+
+      const ul = document.querySelector('ul')
+      ul.className = "showDetail"
+
+      const li = document.createElement('li')
+      for (var i = 0; i < res.data.length - 1; i++) {
+        li.textContent = `${res.data[i].name} - ${res.data[i].email} ${res.data[i].phone}`
+        const button = document.createElement('button')
+        const editButton = document.createElement('button')
+        button.className = "deleteBtn"
+        editButton.className = "editBtn"
+        button.textContent = "delete"
+        editButton.textContent = "Edit"
+        button.id = res.data.email
+        editButton.name = res.data.email
+        li.appendChild(button)
+        li.appendChild(editButton)
+        ul.appendChild(li)
+      }
+    }).catch((e)=>console.log('error',e))
+})
+
 const form = document.querySelector("form")
 
 form.addEventListener("submit", function (event) {
@@ -11,11 +38,11 @@ form.addEventListener("submit", function (event) {
   }
 
   // const username=document.getElementById('username')
-  
 
-  axios.post("https://crudcrud.com/api/f61bc0a4e9914660b1c3a1131b04af5d/booking",userDetail)
-    .then((res)=>console.log('success',res))
-    .catch((e)=>console.log('error',e))
+
+  axios.post("https://crudcrud.com/api/f61bc0a4e9914660b1c3a1131b04af5d/booking", userDetail)
+    .then((res) => console.log('success', res))
+    .catch((e) => console.log('error', e))
 
   let detail = JSON.stringify(userDetail)
   let email = event.target.email.value
