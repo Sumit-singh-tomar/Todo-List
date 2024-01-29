@@ -1,17 +1,12 @@
-// Write your code below:
-
 document.addEventListener("DOMContentLoaded", function () {
-  var res = null
-  axios.get("https://crudcrud.com/api/f61bc0a4e9914660b1c3a1131b04af5d/booking")
+  var ul = document.querySelector('ul')
+  axios.get("https://crudcrud.com/api/ce29ece0a2314de991e22b1cce600613/booking")
     .then((res) => {
-      console.log('success', res)
 
-      const ul = document.querySelector('ul')
       ul.className = "showDetail"
-
-      const li = document.createElement('li')
-      for (var i = 0; i < res.data.length - 1; i++) {
-        li.textContent = `${res.data[i].name} - ${res.data[i].email} ${res.data[i].phone}`
+      res.data.map((item) => {
+        const li = document.createElement('li')
+        li.textContent = `${item.username} - ${item.email} ${item.phone}`
         const button = document.createElement('button')
         const editButton = document.createElement('button')
         button.className = "deleteBtn"
@@ -23,9 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
         li.appendChild(button)
         li.appendChild(editButton)
         ul.appendChild(li)
-      }
-    }).catch((e)=>console.log('error',e))
+      })
+    }).catch((e) => console.log('error', e))
 })
+
+
 
 const form = document.querySelector("form")
 
@@ -40,7 +37,7 @@ form.addEventListener("submit", function (event) {
   // const username=document.getElementById('username')
 
 
-  axios.post("https://crudcrud.com/api/f61bc0a4e9914660b1c3a1131b04af5d/booking", userDetail)
+  axios.post("https://crudcrud.com/api/ce29ece0a2314de991e22b1cce600613/booking", userDetail)
     .then((res) => console.log('success', res))
     .catch((e) => console.log('error', e))
 
