@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", function () {
   var ul = document.querySelector('ul')
   axios.get("https://crudcrud.com/api/ce29ece0a2314de991e22b1cce600613/booking")
     .then((res) => {
@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.textContent = "delete"
         editButton.textContent = "Edit"
         button.id = item._id
+        editButton.id = item._id
         editButton.name = item.email
         li.appendChild(button)
         li.appendChild(editButton)
@@ -38,9 +39,8 @@ form.addEventListener("submit", function (event) {
     .then((res) => console.log('success', res))
     .catch((e) => console.log('error', e))
 
-  // let detail = JSON.stringify(userDetail)
-  // let email = event.target.email.value
-  // localStorage.setItem(email, detail)
+  let email = event.target.email.value
+  localStorage.setItem(email,JSON.stringify(userDetail))
 
   // const ul = document.querySelector('ul')
   // ul.className = "showDetail"
@@ -89,15 +89,23 @@ showDetail.addEventListener('click', function (event) {
 
   if (event.target.classList.contains("editBtn")) {
     let elementToRemove = event.target.parentElement;
+    console.log(elementToRemove)
     var userData = JSON.parse(localStorage.getItem(event.target.name))
     const username = document.getElementById('username')
     username.value = userData.username
     email.value = userData.email
     phone.value = userData.phone
+    console.log('userdata',userData)
 
     showDetail.removeChild(elementToRemove);
-    localStorage.removeItem(event.target.name);
+    localStorage.removeItem(userData.email);
 
+    axios.delete(`https://crudcrud.com/api/ce29ece0a2314de991e22b1cce600613/booking/${event.target.id}`)
+    .then((res)=>{
+      console.log('user updated successfully')
+    }).catch((e)=>{
+      console.log('eeeeeeeeee',e)
+    })
   }
 });
 
